@@ -11,11 +11,11 @@ $_SESSION['auth'] = "true";
 
 extract($_POST);
 extract($_GET);
-$host = "mydbinstance.cmsecos5l0vz.us-east-1.rds.amazonaws.com:3306";
-$dbname = "ShoppingCart";
+$host = //host;
+$dbname = //database name;
 $dsn = "mysql:host=$host;dbname=$dbname";
-$username = 'Aksh30';
-$password = 'Krishna30';
+$username = //username;
+$password = //password;
 $dbh = new PDO($dsn, $username, $password);
 
 function generate_alphnumeric_code(){
@@ -53,7 +53,7 @@ function check_login(){
     if(!isset($_SESSION['USER_ID'])) {
         if(!empty($_GET))
         echo json_encode(array("success" => false, "result" => "authentication failed"));
-        else header("Location:http://shoppingcart-project.us-east-1.elasticbeanstalk.com/login.html");
+        else header("Location:login.html");
         exit;
     }else{
         $tableName = 'user';
@@ -62,7 +62,7 @@ function check_login(){
         $stmt->execute();
         $result = $stmt->fetchAll();
         if(empty($result)){
-            header("Location:http://shoppingcart-project.us-east-1.elasticbeanstalk.com/login.html");
+            header("Location:login.html");
         }
     }
 }
@@ -80,7 +80,7 @@ if(isset($registration_form) && $registration_form == 'true') {
         'authorization_code'=>$authorization));
 
     send_confirmation_email($email,$authorization);
-    header("Location: http://shoppingcart-project.us-east-1.elasticbeanstalk.com/login.html");
+    header("Location: login.html");
     exit;
 
 }elseif(isset($login_form) && $login_form == 'true'){
@@ -92,11 +92,11 @@ if(isset($registration_form) && $registration_form == 'true') {
         $result = $stmt->fetchAll();
         if(empty($result)){
             echo "<h3>Authentication failed</h3>";
-            header("Location: http://shoppingcart-project.us-east-1.elasticbeanstalk.com/login.html");
+            header("Location: login.html");
             exit;
         }else{
             $_SESSION['USER_ID'] = $result[0]['id'];
-            header("Location: http://shoppingcart-project.us-east-1.elasticbeanstalk.com/index.html"); /* Redirect browser */
+            header("Location: index.html"); /* Redirect browser */
             exit();
         }
 
@@ -114,7 +114,7 @@ if(isset($product_description) && $product_description == 'true') {
     'image_path'=>$file_name,
     'cost'=>$price)
     );
-       header("Location: http://shoppingcart-project.us-east-1.elasticbeanstalk.com/index.html"); /* Redirect browser */
+       header("Location:index.html"); /* Redirect browser */
        exit();
 }
 elseif(isset($action) && $action=="search_by_category"){
@@ -198,7 +198,7 @@ elseif(isset($action) && $action=="search_by_value"){
     $result = $stmt->fetchAll();
     echo json_encode(array("success"=>true,"result"=>$result));
 }else{
-    header("Location:http://shoppingcart-project.us-east-1.elasticbeanstalk.com/login.html");
+    header("Location:login.html");
     exit();
 }
 ?>
